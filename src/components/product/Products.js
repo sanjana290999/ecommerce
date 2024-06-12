@@ -28,7 +28,7 @@ const TitleShortner = ({ title }) => {
 //   );
 // };
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
   const addCartItem = (productId) => {

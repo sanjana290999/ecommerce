@@ -7,6 +7,9 @@ import {
   getProducts,
   getProductsByCategories,
 } from "../features/products/ProductsSlice";
+import { postCartItem } from "../features/cart/CartSlice";
+import { toast } from "react-toastify";
+import { ProductCard } from "./Products";
 
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
@@ -34,41 +37,18 @@ export default function ProductsByCategories({ name, showAllButton }) {
   useEffect(() => {
     dispatch(getProductsByCategories(categoryId));
   }, [Navigate]);
+  const addCartItem = (productId) => {
+    dispatch(postCartItem({ productId, quantity: 1 }));
+    toast.success("Item added to cart");
+    console.log(productId);
+  };
 
   return (
     <div>
       <div className="text-4xl font-medium ml-60 ">{name}</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-10 sm:mx-20 lg:mx-40 mt-8">
         {!isEmpty(productData) &&
-          productData.map((element) => (
-            <div
-              key={element.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105"
-            >
-              <Link to={`/product-details/${element._id}`}>
-                <img
-                  className="object-cover w-full h-60"
-                  src={element.mainImage.url}
-                  alt="Product"
-                />
-              </Link>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                  <TitleShortner title={element.name} />
-                </h3>
-                <p className="text-gray-600 mb-2">&#x20B9;{element.price}</p>
-                <p className="text-gray-600 mb-2">stock{element.stock}</p>
-                <div className="flex justify-evenly items-center">
-                  <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-6 rounded-lg">
-                    Add to Cart
-                  </button>
-                  <button className="bg-blue-900 hover:bg-blue-950 text-white py-2 px-6 rounded-lg">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+          productData.map((element) => <ProductCard product={element} />)}
       </div>
       {showAllButton && (
         <div className="flex items-center justify-center mt-10">

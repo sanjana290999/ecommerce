@@ -59,22 +59,22 @@ const Sidebar = () => {
                 <MdLocationOn className="mr-2" /> Manage Addresses
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/pancard"
                 className=" py-2 px-4 hover:bg-gray-200 flex items-center"
               >
                 <FaRegCreditCard className="mr-2" /> PAN Card Information
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Link
                 to="/gift-cards"
                 className=" py-2 px-4 hover:bg-gray-200 flex items-center"
               >
                 <MdOutlineCardGiftcard className="mr-2" /> Gift Cards
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/coupons"
