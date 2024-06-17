@@ -21,10 +21,13 @@ import {
   getProductsByCategories,
 } from "../features/header/headerSlice";
 import { logout } from "../features/auth/AuthSlice";
+import { isEmpty } from "lodash";
+import Cookies from "js-cookie";
 
 const Navbar = ({ cart, setCart }) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.header.categories.categories);
+  const token = Cookies.get("token");
 
   useEffect(() => {
     dispatch(getAllCategories());
@@ -33,6 +36,7 @@ const Navbar = ({ cart, setCart }) => {
   const logoutUser = () => {
     dispatch(logout());
   };
+
   return (
     <div className="relative z-50">
       <div>
@@ -71,50 +75,53 @@ const Navbar = ({ cart, setCart }) => {
             <div className="relative group ml-4">
               <FaUser className="w-6 h-6 md:w-10 md:h-5 hover:cursor-pointer text-black" />
               <div className="absolute hidden z-10 group-hover:block bg-white text-black left-1/2 transform -translate-x-1/2 mt-1 py-2 w-48 shadow-lg rounded-md">
-                <Link
-                  to="/login"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaSignInAlt className="mr-2" /> Login
-                </Link>
-                <Link
-                  to="/profile"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaUserCircle className="mr-2" /> My Profile
-                </Link>
-
-                <Link
-                  to="/orders"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaBox className="mr-2" /> Orders
-                </Link>
-                <Link
-                  to="/wishlist"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaHeart className="mr-2" /> Wishlist
-                </Link>
-                <Link
-                  to="/coupons"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaTicketAlt className="mr-2" /> Coupons
-                </Link>
-
-                <Link
-                  to="/notifications"
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                >
-                  <FaBell className="mr-2" /> Notifications
-                </Link>
-                <span
-                  className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                  onClick={logoutUser}
-                >
-                  <FaSignOutAlt className="mr-2" /> Logout
-                </span>
+                {!isEmpty(token) ? (
+                  <>
+                    <Link
+                      to="/profile"
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    >
+                      <FaUserCircle className="mr-2" /> My Profile
+                    </Link>
+                    <Link
+                      to="/orders"
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    >
+                      <FaBox className="mr-2" /> Orders
+                    </Link>
+                    <Link
+                      to="/wishlist"
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    >
+                      <FaHeart className="mr-2" /> Wishlist
+                    </Link>
+                    <Link
+                      to="/coupons"
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    >
+                      <FaTicketAlt className="mr-2" /> Coupons
+                    </Link>
+                    <Link
+                      to="/notifications"
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                    >
+                      <FaBell className="mr-2" /> Notifications
+                    </Link>
+                    <span
+                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                      onClick={logoutUser}
+                    >
+                      <FaSignOutAlt className="mr-2" /> Logout
+                    </span>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
+                  >
+                    <FaSignInAlt className="mr-2" /> Login
+                  </Link>
+                )}
               </div>
             </div>
             <Link to={"/cart"}>

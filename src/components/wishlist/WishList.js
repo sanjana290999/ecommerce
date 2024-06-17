@@ -19,7 +19,7 @@ const WishlistPage = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 bg-gray-100 mx-auto mt-10 min-h-screen max-w-4xl">
+    <div className="p-6 md:p-8 bg-white mb-5 rounded-xl mx-auto mt-8 min-h-screen ml-4">
       <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">
         Your Wishlist
       </h1>
@@ -38,10 +38,10 @@ const WishlistPage = () => {
               <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
               <p className="text-xl font-bold mb-4">{item.price}</p>
               <div className="flex space-x-4">
-                <button className="bg-teal-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-700">
+                <button className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-600">
                   Add to Cart
                 </button>
-                <button className="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700">
+                <button className="bg-gray-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-500">
                   Remove
                 </button>
               </div>

@@ -10,7 +10,7 @@ import {
 export default function Footer() {
   return (
     <div className=" bg-blue-950 text-white ">
-      <div className="flex justify-evenly p-1 text-white text-xl  bg-teal-500 mt-10">
+      <div className="flex justify-evenly p-1 text-white text-sm  bg-teal-500 mt-10">
         {/* <p>Osam Clothes</p>
         <p>Osam Clothes</p>
         <p>Osam Clothes</p>

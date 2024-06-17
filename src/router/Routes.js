@@ -13,36 +13,25 @@ import Footer from "../components/footer/Footer";
 import Cart from "../components/cart/Cart";
 import MyOrders from "../components/orders/Orders";
 import ManageAddresses from "../components/address/ManageAddresses";
-// const Wrapper = ({ children }) => {
-//   const token = Cookies.get("token");
+import WithSidebar from "../components/HOC/HocComponent";
+import CouponsPage from "../components/coupens/Coupens";
+import Notifications from "../components/notifications/Notifications";
+import WishlistPage from "../components/wishlist/WishList";
 
-//   if (
-//     isEmpty(token) &&
-//     !publicUrls.includes(window.location.pathname.split("/")[1])
-//   ) {
-//     return <Navigate to="/" />;
-//   } else if (
-//     !isEmpty(token) &&
-//     publicUrls.includes(window.location.pathname.split("/")[1])
-//   ) {
-//     return <Navigate to="/dashbord" />;
-//   }
-//   return children;
-// };
-// const Navigate = useNavigate();
 const Wrapper = ({ children }) => {
   const token = Cookies.get("token");
-  if (
-    !isEmpty(token) &&
-    (window.location.pathname === "/login" ||
-      window.location.pathname === "/signup")
-  ) {
+  if (!isEmpty(token) && window.location.pathname === "/login") {
     return <Navigate to="/" />;
   }
 
   return children;
 };
-
+const ProfileWithSidebar = WithSidebar(Profile);
+const OrdersWithSidebar = WithSidebar(MyOrders);
+const AddressWithSidebar = WithSidebar(ManageAddresses);
+const WishlistWithSidebar = WithSidebar(WishlistPage);
+const CouponsWithSidebar = WithSidebar(CouponsPage);
+const NotificationsWithSidebar = WithSidebar(Notifications);
 function RoutesComponent() {
   return (
     <>
@@ -71,10 +60,14 @@ function RoutesComponent() {
           path="/products-category/:categoryId"
           element={<ProductsByCategories />}
         />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/orders" element={<MyOrders />} />
-        <Route path="/manageAddresses" element={<ManageAddresses />} />
+        <Route path="/profile" element={<ProfileWithSidebar />} />
+
+        <Route path="/orders" element={<OrdersWithSidebar />} />
+        <Route path="/manageAddresses" element={<AddressWithSidebar />} />
+        <Route path="/coupons" element={<CouponsWithSidebar />} />
+        <Route path="/wishlist" element={<WishlistWithSidebar />} />
+        <Route path="/notifications" element={<NotificationsWithSidebar />} />
       </Routes>
       <Footer />
     </>

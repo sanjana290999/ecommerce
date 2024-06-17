@@ -16,10 +16,7 @@ export const userSignup = createAsyncThunk("user/signup", async (data) => {
       `${process.env.REACT_APP_BASE_URL}/users/register`,
       data
     );
-    Cookies.set("token", response.data.data.accessToken, {
-      expires: 7,
-      secure: true,
-    });
+
     return response.data.data;
   } catch (error) {
     console.log("error");
@@ -34,6 +31,10 @@ export const userLogin = createAsyncThunk("user/login", async (data) => {
       data
     );
     Cookies.set("token", response.data.data.accessToken, {
+      expires: 1,
+      secure: true,
+    });
+    Cookies.set("reshToken", response.data.data.refreshToken, {
       expires: 7,
       secure: true,
     });
@@ -57,6 +58,7 @@ export const logout = createAsyncThunk("logout", async () => {
     );
 
     Cookies.remove("token");
+    Cookies.remove("refreshToken");
     window.location.reload();
     return response.data.data;
   } catch (error) {

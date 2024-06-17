@@ -39,60 +39,62 @@ const Profile = () => {
     }
   };
   return (
-    <div className="flex h-[90%]  bg-gray-100 ">
-      <Sidebar />
+    <div className="mb-5">
+      <div className="flex h-full mt-8 ">
+        <div className="bg-white shadow-md rounded-xl overflow-hidden ml-4  mr-56 p-5">
+          <form onSubmit={handleEdit}>
+            {!isEmpty(userProfile) ? (
+              <div className="space-y-4">
+                <div className="flex flex-col w-80">
+                  <label className="text-gray-600 font-bold">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    defaultValue={userProfile.firstName}
+                    className="p-2 border border-gray-300 rounded-lg"
+                    onChange={onInputChange}
+                  />
+                </div>
 
-      <div className="bg-white shadow-md rounded-lg overflow-hidden ml-5 mt-8 mr-56 p-5">
-        <form onSubmit={handleEdit}>
-          {!isEmpty(userProfile) ? (
-            <div className="space-y-4">
-              <div className="flex flex-col w-80">
-                <label className="text-gray-600">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  defaultValue={userProfile.firstName}
-                  className="p-2 border border-gray-300 rounded-lg"
-                  onChange={onInputChange}
-                />
+                <div className="flex flex-col w-80">
+                  <label className="text-gray-600 font-bold">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    defaultValue={userProfile.lastName}
+                    className="p-2 border border-gray-300 rounded-lg"
+                    onChange={onInputChange}
+                  />
+                </div>
+
+                <div className="flex flex-col w-80">
+                  <label className="text-gray-600 font-bold">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="text"
+                    name="mobileNumber"
+                    defaultValue={userProfile.phoneNumber}
+                    className="p-2 border border-gray-300 rounded-lg"
+                    onChange={onInputChange}
+                  />
+                </div>
               </div>
+            ) : (
+              <p>Loading...</p>
+            )}
 
-              <div className="flex flex-col w-80">
-                <label className="text-gray-600">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  defaultValue={userProfile.lastName}
-                  className="p-2 border border-gray-300 rounded-lg"
-                  onChange={onInputChange}
-                />
-              </div>
-
-              <div className="flex flex-col w-80">
-                <label className="text-gray-600">Mobile Number</label>
-                <input
-                  type="text"
-                  name="mobileNumber"
-                  defaultValue={userProfile.phoneNumber}
-                  className="p-2 border border-gray-300 rounded-lg"
-                  onChange={onInputChange}
-                />
-              </div>
-            </div>
-          ) : (
-            <p>Loading...</p>
-          )}
-
-          <button
-            type="submit"
-            className=" mt-4
+            <button
+              type="submit"
+              className=" mt-4
              py-2 px-4 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75"
-          >
-            Edit Profile
-          </button>
+            >
+              Edit Profile
+            </button>
 
-          <FAQs />
-        </form>
+            <FAQs />
+          </form>
+        </div>
       </div>
     </div>
   );

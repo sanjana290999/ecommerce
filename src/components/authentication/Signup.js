@@ -29,7 +29,7 @@ const Signup = () => {
     e.preventDefault();
     disptach(userSignup(data));
     setTimeout(() => {
-      Navigate("/");
+      Navigate("/login");
     }, 2000);
   };
   const googleLoginUser = async () => {};

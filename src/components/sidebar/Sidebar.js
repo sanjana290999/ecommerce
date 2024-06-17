@@ -23,7 +23,7 @@ const Sidebar = () => {
     dispatch(logout());
   };
   return (
-    <div className=" bg-gray-100  rounded-lg ">
+    <div className="  rounded-lg  h-[90%]">
       <div className="p-2 bg-teal-600 text-white font-bold flex  rounded-md ml-56 mt-8 text-xl">
         <img
           src="https://via.placeholder.com/150"

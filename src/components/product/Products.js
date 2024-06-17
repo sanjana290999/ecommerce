@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { getProducts } from "../features/products/ProductsSlice";
 import { postCartItem } from "../features/cart/CartSlice";
 import { toast } from "react-toastify";
-
+import { Circles } from "react-loader-spinner";
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
     return (
@@ -33,6 +33,7 @@ export const ProductCard = ({ product }) => {
 
   const addCartItem = (productId) => {
     dispatch(postCartItem({ productId, quantity: 1 }));
+
     toast.success("Item added to cart");
     console.log(productId);
   };
@@ -77,6 +78,15 @@ export default function Products({ name, showAllButton }) {
   );
   useEffect(() => {
     dispatch(getProducts());
+    <Circles
+      height="80"
+      width="80"
+      color="#4fa94d"
+      ariaLabel="circles-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+    />;
   }, []);
 
   return (
