@@ -9,12 +9,15 @@ import {
 import { isEmpty } from "lodash";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { removeCoupon } from "../features/coupens/CoupensSlice";
+import Loader from "../loader/Loader";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartAllItem || []);
-  const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const Loading = useSelector((state) => state.cart.isLoding);
+
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     dispatch(getCartItem());
@@ -40,21 +43,10 @@ const Cart = () => {
     dispatch(getCartItem());
   };
 
-  const handleApplyCoupon = () => {
-    // if (couponCode === "DISCOUNT10") {
-    //   setDiscount(10);
-    //   toast.success("Coupon applied successfully");
-    // } else {
-    //   toast.error("Invalid coupon code");
-    // }
+  const handleRemoveCoupon = (couponCode) => {
+    dispatch(removeCoupon(couponCode));
+    dispatch(getCartItem());
   };
-
-  const totalAmount = cartItems.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
-    0
-  );
-
-  const discountedAmount = totalAmount - (totalAmount * discount) / 100;
 
   return (
     <div className="p-4 md:p-8 bg-gray-100 min-h-screen mx-auto mt-10 max-w-6xl">
@@ -62,10 +54,10 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-3">
           {!isEmpty(cartItems) &&
-            cartItems.map((item) => (
+            cartItems.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white shadow-md rounded-lg mb-4 p-4 flex flex-col md:flex-row items-center"
+                className="bg-white border border-teal-600 shadow-md rounded-lg mb-4 p-4 flex flex-col md:flex-row items-center"
               >
                 <Link to={`/product-details/${item.product._id}`}>
                   <img
@@ -113,41 +105,65 @@ const Cart = () => {
               </div>
             ))}
         </div>
+
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Price ({cartItems.length} items)</p>
-            <p className="font-bold">{totalAmount.toFixed(2)}</p>
+            <p className="font-bold">{cartItems?.cartTotal}</p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Shipping</p>
             <p className="font-bold">0.00</p>
           </div>
-          <div className="flex justify-between mb-2">
-            <p className="text-gray-600">Discount</p>
-            <p className="font-bold">-{(totalAmount * discount) / 100}</p>
-          </div>
+          {cartItems.coupon && (
+            <div
+              className="flex justify-between mb-2"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <p className="text-gray-600">
+                Discount ({cartItems.coupon.couponCode})
+              </p>
+              <div className="flex items-center">
+                <p className="font-bold">
+                  -{cartItems.coupon.discountValue ?? 0}
+                </p>
+                {isHovered && (
+                  <button
+                    className="ml-2 bg-gray-500 hover:bg-gray-600 text-white px-1  py-1 rounded"
+                    onClick={() =>
+                      handleRemoveCoupon(cartItems.coupon.couponCode)
+                    }
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          {/* <p className="text-gray-600">Remove Coupen</p> */}
+
           <hr className="my-2" />
           <div className="flex justify-between text-lg font-bold">
             <p>Total Amount</p>
-            <p>{discountedAmount.toFixed(2)}</p>
+            <p>{cartItems?.discountedTotal}</p>
           </div>
-          <input
-            type="text"
-            className="mt-4 p-2 w-full border border-gray-300 rounded-lg"
-            placeholder="Enter coupon code"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-          <button
-            className="mt-2 w-full py-2 px-4 bg-teal-600 text-white rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75"
-            onClick={handleApplyCoupon}
-          >
-            Apply Coupon
-          </button>
-          <button className="w-full py-2 px-4 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 mt-4">
-            Place Order
-          </button>
+
+          <Link to={isEmpty(cartItems.coupon) ? "/coupons" : "#"}>
+            <button
+              className="mt-2 w-full py-2 px-4 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75"
+              // onClick={handleApplyCoupon}
+            >
+              {!isEmpty(cartItems.coupon) ? "Applied" : "view all Coupons"}
+              {/* view all Coupons */}
+            </button>
+          </Link>
+          <Link to={"/manageAddresses"}>
+            <button className="w-full py-2 px-4 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 mt-4">
+              Buy Now
+            </button>
+          </Link>
         </div>
       </div>
     </div>

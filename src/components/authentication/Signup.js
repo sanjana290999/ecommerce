@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userSignup } from "../features/auth/AuthSlice";
-import { Navigate } from "react-router-dom";
+
 const Signup = () => {
   const [register, setRegister] = useState({
     email: "",
@@ -12,36 +12,34 @@ const Signup = () => {
     username: "",
   });
 
-  // const [registerUsers, setRegisterUsers] = useState([]);
-  // const [googleLogin, setGoogleLogin] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const disptach = useDispatch();
-  const Navigate = useNavigate();
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { name, value } = e.target;
     setRegister({
       ...register,
-      [e.target.name]: value,
+      [name]: value,
     });
   };
-  const data = { ...register };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    disptach(userSignup(data));
+    const data = { ...register };
+    dispatch(userSignup(data));
     setTimeout(() => {
-      Navigate("/login");
+      navigate("/login");
     }, 2000);
   };
-  const googleLoginUser = async () => {};
+
+  const googleLoginUser = async () => {
+    // Implement Google login functionality here
+  };
+
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center  bg-gray-100 sm:px-4 rounded-3xl space-x-2">
+    <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 sm:px-4 rounded-3xl space-x-2">
       <div className="w-full space-y-6 text-gray-600 sm:max-w-md">
         <div className="text-center">
-          {/* <img
-            src="asset/images/images-logo.png"
-            width={150}
-            className="mx-auto"
-          /> */}
           <div className="mt-5 space-y-2">
             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
               Create an account
@@ -57,7 +55,7 @@ const Signup = () => {
             </p>
           </div>
         </div>
-        <div className="bg-white sha p-4 py-6 sm:p-6 sm:rounded-lg  ">
+        <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="font-medium">Email</label>
@@ -83,14 +81,17 @@ const Signup = () => {
             </div>
             <div>
               <label className="font-medium">Role</label>
-              <input
-                type="text"
+              <select
                 name="role"
                 value={register.role}
                 onChange={handleChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-teal-600 shadow-sm rounded-lg"
-              />
+              >
+                <option value="">Select a role</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+              </select>
             </div>
             <div>
               <label className="font-medium">Username</label>
@@ -103,7 +104,7 @@ const Signup = () => {
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-teal-600 shadow-sm rounded-lg"
               />
             </div>
-            <button className="w-full px-4 py-2 text-white font-medium bg-teal-600 hover:bg-teal-500 active:bg--600 rounded-lg duration-150">
+            <button className="w-full px-4 py-2 text-white font-medium bg-teal-600 hover:bg-teal-500 active:bg-teal-600 rounded-lg duration-150">
               Create account
             </button>
           </form>
@@ -118,7 +119,7 @@ const Signup = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g clip-path="url(#clip0_17_40)">
+                <g clipPath="url(#clip0_17_40)">
                   <path
                     d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z"
                     fill="#4285F4"
@@ -150,4 +151,5 @@ const Signup = () => {
     </main>
   );
 };
+
 export default Signup;

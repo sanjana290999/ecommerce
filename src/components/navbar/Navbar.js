@@ -1,28 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  FaCartPlus,
-  FaUser,
-  FaSignInAlt,
-  FaUserCircle,
-  FaCoins,
-  FaBox,
-  FaHeart,
-  FaTicketAlt,
-  FaGift,
-  FaBell,
-  FaSignOutAlt,
-} from "react-icons/fa";
-import { FaIndianRupeeSign } from "react-icons/fa6";
+import { FaCartPlus, FaIndianRupeeSign, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   getAllCategories,
   getProductsByCategories,
 } from "../features/header/headerSlice";
-import { logout } from "../features/auth/AuthSlice";
-import { isEmpty } from "lodash";
+import { searchProducts } from "../features/products/ProductsSlice";
+import ProfileList from "../profileList/ProfileList";
 import Cookies from "js-cookie";
+import { isEmpty } from "lodash";
 
 const Navbar = ({ cart, setCart }) => {
   const dispatch = useDispatch();
@@ -33,108 +21,83 @@ const Navbar = ({ cart, setCart }) => {
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  const logoutUser = () => {
-    dispatch(logout());
+  const handleSearch = (e) => {
+    dispatch(searchProducts(e.target.value));
   };
 
   return (
-    <div className="relative z-50">
-      <div>
-        <div className="p-2 flex flex-col md:flex-row justify-evenly bg-teal-600 text-white rounded-md">
-          {/* <img
-            src="/asset/images/images-logo.png"
-            width={50}
-            className="rounded-lg"
-            alt="logo"
-          /> */}
-          <p className="text-lg font-bold">osamcollection123@gmail.com</p>
-          <p className="text-lg font-bold">Osam collection</p>
-          <p className="text-lg font-bold">Call: +91-9129-9129-91</p>
-        </div>
-        <div className="p-2 flex flex-col md:flex-row justify-between items-center mt-2 mx-4 md:mx-32 rounded-md shadow-2xl">
-          <div className="w-full md:w-[70%] flex justify-evenly mt-5 text-black hover:cursor-pointer text-base">
+    <div className="relative z-50 bg-white shadow-md">
+      <div className="bg-teal-600 text-white p-2 px-10 flex flex-col md:flex-row justify-between items-center">
+        <p className="text-sm md:text-lg font-bold">
+          osamcollection123@gmail.com
+        </p>
+        <p className="text-sm md:text-lg font-bold">Osam Collection</p>
+        <p className="text-sm md:text-lg font-bold">Call: +91-9129-9129-91</p>
+      </div>
+      <div className="flex flex-col md:flex-row justify-between items-center py-4 px-4 md:px-10">
+        <div className="flex items-center space-x-4 md:space-x-10">
+          <Link to="/">
+            <img
+              src="/asset/images/images-logo.png"
+              width={50}
+              className="rounded-lg"
+              alt="logo"
+            />
+          </Link>
+          <div className="hidden md:flex space-x-7">
             {categories &&
               categories.map((element) => (
                 <Link
                   key={element._id}
                   to={`/products-category/${element._id}`}
+                  className="text-black hover:text-teal-600"
                 >
-                  <span>
+                  <span className="text-base font-medium">
                     {element.name[0].toUpperCase()}
-                    {[...element.name.slice(1, -1)]}
+                    {element.name.slice(1)}
                   </span>
                 </Link>
               ))}
           </div>
-          <div className="w-full md:w-[40%] flex items-center text-white mt-5 md:mt-0">
-            <input
-              className="w-full md:w-auto ml-4 md:ml-20 px-2 md:px-10 my-3 rounded-2xl py-2 text-black border-gray-600 bg-gray-200"
-              type="text"
-              placeholder="search"
-            />
-            <div className="relative group ml-4">
-              <FaUser className="w-6 h-6 md:w-10 md:h-5 hover:cursor-pointer text-black" />
-              <div className="absolute hidden z-10 group-hover:block bg-white text-black left-1/2 transform -translate-x-1/2 mt-1 py-2 w-48 shadow-lg rounded-md">
-                {!isEmpty(token) ? (
-                  <>
-                    <Link
-                      to="/profile"
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                    >
-                      <FaUserCircle className="mr-2" /> My Profile
-                    </Link>
-                    <Link
-                      to="/orders"
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                    >
-                      <FaBox className="mr-2" /> Orders
-                    </Link>
-                    <Link
-                      to="/wishlist"
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                    >
-                      <FaHeart className="mr-2" /> Wishlist
-                    </Link>
-                    <Link
-                      to="/coupons"
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                    >
-                      <FaTicketAlt className="mr-2" /> Coupons
-                    </Link>
-                    <Link
-                      to="/notifications"
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                    >
-                      <FaBell className="mr-2" /> Notifications
-                    </Link>
-                    <span
-                      className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                      onClick={logoutUser}
-                    >
-                      <FaSignOutAlt className="mr-2" /> Logout
-                    </span>
-                  </>
-                ) : (
-                  <Link
-                    to="/login"
-                    className=" px-4 py-2 text-sm hover:bg-gray-200 flex items-center"
-                  >
-                    <FaSignInAlt className="mr-2" /> Login
-                  </Link>
-                )}
-              </div>
-            </div>
-            <Link to={"/cart"}>
-              <FaCartPlus className="w-6 h-6 md:w-10 md:h-5 ml-2 hover:cursor-pointer text-black" />
-            </Link>
-            <button
-              className="border-white py-1 px-5 text-black text-lg font-medium bg-teal-500 rounded-lg ml-4 md:ml-10 m-2"
-              type="button"
-            >
-              HELP
-            </button>
-          </div>
         </div>
+        <div className="flex items-center mt-4 md:mt-0 space-x-4 md:space-x-8">
+          <input
+            className="flex-grow md:flex-grow-0 w-full md:w-96 px-4 py-2 border border-gray-300 rounded-2xl text-black"
+            type="text"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
+          <Link to={"/profileList"}>
+            <div className="relative group">
+              <FaUser className="w-6 h-6 text-black cursor-pointer" />
+              <ProfileList />
+            </div>
+          </Link>
+          <Link to="/cart">
+            <FaCartPlus className="w-6 h-6 text-black cursor-pointer" />
+          </Link>
+          <button
+            className="bg-teal-500 text-white py-1 px-4 rounded-lg"
+            type="button"
+          >
+            HELP
+          </button>
+        </div>
+      </div>
+      <div className="md:hidden flex justify-center py-2 space-x-4 border-t border-gray-200">
+        {categories &&
+          categories.map((element) => (
+            <Link
+              key={element._id}
+              to={`/products-category/${element._id}`}
+              className="text-black hover:text-teal-600"
+            >
+              <span className="text-sm">
+                {element.name[0].toUpperCase()}
+                {element.name.slice(1)}
+              </span>
+            </Link>
+          ))}
       </div>
     </div>
   );

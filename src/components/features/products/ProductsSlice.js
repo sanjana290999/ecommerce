@@ -5,12 +5,15 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 
 const initialState = {
   productsData: [],
   productDetails: [],
   productCategories: [],
+  storedProductsData: [],
+  storedProductCategories: [],
   error: "",
   isLoding: false,
 };
@@ -60,9 +63,40 @@ export const getProductsByCategories = createAsyncThunk(
 const productsSlice = createSlice({
   name: "products",
   initialState,
+  reducers: {
+    searchProducts: (state, action) => {
+      console.log({ storedProductsData: state.storedProductsData.products });
+      console.log({
+        storedProductCategories: state.storedProductCategories.products,
+      });
+      if (!isEmpty(state.storedProductsData.products)) {
+        let products = state.storedProductsData.products.filter((product) => {
+          let productName = product.name.toLowerCase();
+          let search = action.payload.toLowerCase();
+          return productName.includes(search);
+        });
+        state.productsData = { ...state.productsData, products };
+      }
+
+      if (!isEmpty(state.storedProductCategories.products)) {
+        let catProducts = state.storedProductCategories.products.filter(
+          (product) => {
+            let productName = product.name.toLowerCase();
+            let search = action.payload.toLowerCase();
+            return productName.includes(search);
+          }
+        );
+        state.productCategories = {
+          ...state.productCategories,
+          products: catProducts,
+        };
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.productsData = action.payload;
+      state.storedProductsData = action.payload;
       state.error = "";
       state.isLoding = false;
     });
@@ -73,6 +107,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProductsByCategories.fulfilled, (state, action) => {
       state.productCategories = action.payload;
+      state.storedProductCategories = action.payload;
       state.error = "";
       state.isLoding = false;
     });
@@ -87,4 +122,5 @@ const productsSlice = createSlice({
   },
 });
 
+export const { searchProducts } = productsSlice.actions;
 export default productsSlice.reducer;

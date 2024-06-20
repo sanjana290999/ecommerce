@@ -1,31 +1,42 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCoupens } from "../features/coupens/CoupensSlice";
+import { applyCoupon, getAllCoupens } from "../features/coupens/CoupensSlice";
 import { Circles } from "react-loader-spinner";
+// import { BiLoader } from "react-icons/bi";
+import Loader from "../loader/Loader";
+import { toast } from "react-toastify";
+import { isEmpty } from "lodash";
+import { getCartItem } from "../features/cart/CartSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const CouponsPage = () => {
   const dispatch = useDispatch();
   const { allCoupons: coupons, isLoading } = useSelector(
     (state) => state.coupons
   );
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllCoupens());
   }, [dispatch]);
   console.log({ isLoading });
   if (isLoading) {
-    return (
-      <Circles
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="circles-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
-      />
-    );
+    <Loader />;
   }
+  const handleApplyCoupon = (couponCode) => {
+    dispatch(applyCoupon(couponCode));
+    dispatch(getCartItem());
+    navigate("/cart");
+
+    if (!isEmpty(couponCode)) {
+      toast.success("applied");
+    } else {
+      toast.error("Copones Not valid!");
+    }
+  };
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="p-6 md:p-8 bg-white mb-5 mx-auto mt-8 min-h-screen ml-4 rounded-xl">
       <h2 className="text-2xl font-semibold mb-6 text-gray-700">
@@ -57,6 +68,13 @@ const CouponsPage = () => {
                   {new Date(coupon.expiryDate).toLocaleDateString()}
                 </span>
               </p>
+
+              <button
+                className=" mt-2 px-2 py-1 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+                onClick={() => handleApplyCoupon(coupon.couponCode)}
+              >
+                Apply Coupon Code
+              </button>
             </div>
           </div>
         ))

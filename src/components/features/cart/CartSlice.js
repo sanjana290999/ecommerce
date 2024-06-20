@@ -27,7 +27,7 @@ export const getCartItem = createAsyncThunk("get/cartItem", async () => {
       }
     );
 
-    return response.data.data.items;
+    return response.data.data;
   } catch (error) {
     console.log(error.response.data.message);
   }
@@ -73,6 +73,26 @@ export const removeCartItem = createAsyncThunk(
     }
   }
 );
+export const removeAllCartItem = createAsyncThunk(
+  "remove/allCart/item",
+  async () => {
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/ecommerce/cart/clear`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.data.items.product);
+      return response.data.data.items.product;
+    } catch (error) {
+      console.log("error");
+    }
+  }
+);
 
 const CartSlice = createSlice({
   name: "header",
@@ -88,6 +108,10 @@ const CartSlice = createSlice({
       state.isLoding = false;
     });
     builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      state.error = "";
+      state.isLoding = false;
+    });
+    builder.addCase(removeAllCartItem.fulfilled, (state, action) => {
       state.error = "";
       state.isLoding = false;
     });

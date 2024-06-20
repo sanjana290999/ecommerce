@@ -19,7 +19,12 @@ const ManageAddresses = () => {
     addressType: "Home",
   });
   const [editAddress, setEditAddress] = useState([]);
+  // const [isFormOpen, setIsFormOpen] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllAddresses());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,21 +40,14 @@ const ManageAddresses = () => {
       dispatch(updateAddress(form)).then(() => {
         dispatch(getAllAddresses());
       });
-    } else
+    } else {
       dispatch(addAddress(form)).then(() => {
         dispatch(getAllAddresses());
       });
-
-    setForm({
-      addressLine1: "",
-      addressLine2: "",
-      pincode: "",
-      country: "",
-      city: "",
-      state: "",
-      addressType: "Home",
-    });
+    }
+    handleCancel();
   };
+
   const handleCancel = () => {
     setForm({
       addressLine1: "",
@@ -60,15 +58,30 @@ const ManageAddresses = () => {
       state: "",
       addressType: "Home",
     });
+    // setIsFormOpen(false);
   };
 
   return (
     <div className="mb-5 ">
-      <div className="p-6 rounded-xl  md:p-8 bg-white mx-auto mt-8 min-h-screen ml-4">
+      <div className="p-6 rounded-xl md:p-8 bg-white mx-auto mt-8 min-h-screen ml-4">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Manage Addresses
         </h1>
-        <form onSubmit={handleSubmit}>
+        {/* {!isFormOpen && ( */}
+        <div className="flex justify-center mb-8">
+          <button
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-700 transition duration-300"
+            // onClick={() => setIsFormOpen(true)}
+          >
+            Add New Address
+          </button>
+        </div>
+        {/* )} */}
+        {/* {isFormOpen && ( */}
+        <form
+          onSubmit={handleSubmit}
+          className="transition-all duration-500 ease-in-out"
+        >
           <div className="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 className="text-2xl font-semibold mb-6">Add a New Address</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,7 +173,7 @@ const ManageAddresses = () => {
                 type="submit"
                 className="bg-teal-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-700"
               >
-                {!isEmpty(form._id) ? "update" : "save"}
+                {!isEmpty(form._id) ? "Update" : "Save"}
               </button>
               <button
                 type="button"
@@ -172,6 +185,7 @@ const ManageAddresses = () => {
             </div>
           </div>
         </form>
+        {/* )} */}
         <Addresses
           setForm={setForm}
           editAddress={editAddress}
@@ -181,4 +195,5 @@ const ManageAddresses = () => {
     </div>
   );
 };
+
 export default ManageAddresses;

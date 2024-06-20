@@ -9,19 +9,20 @@ export const Aboutus = [
 ];
 
 export const CUSTOMER_CARE = [
-  "Take The Plant Quiz",
   "Track Order",
   "Shipping Policy",
-  "Terms and Conditionse",
+  "Terms and Conditions",
   "Privacy Policy",
   "FAQs",
   "Terms of Service",
-  "Refund policy",
+  "Refund Policy",
 ];
-export const OFFERS_REWARDS = ["Plant Parent Rewards Club", "Ugaoo Coupons"];
-export const GET_IN_TOUCH = [" Plant Parent Rewards Club", "Ugaoo Coupons"];
+
+export const OFFERS_REWARDS = ["Plant Parent Rewards Club", " Coupons"];
+
+export const GET_IN_TOUCH = ["Contact Us", "Support", "Locations"];
+
 export const SIGNUP_FOR_OUR_NEWSLETTER = [
   "For plant care tips, our featured plant of the week, exclusive offers and discounts",
-
-  "Enter email address",
+  "osam29@gmail.com",
 ];

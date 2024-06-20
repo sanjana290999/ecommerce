@@ -28,12 +28,62 @@ export const getAllCoupens = createAsyncThunk("get/allCoupens", async () => {
     console.log("error");
   }
 });
+export const applyCoupon = createAsyncThunk(
+  "apply/coupon",
+  async (couponCode) => {
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/ecommerce/coupons/c/apply`,
+        { couponCode },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data.data.coupon;
+    } catch (error) {
+      console.log("error");
+    }
+  }
+);
+export const removeCoupon = createAsyncThunk(
+  "remove/coupon",
+  async (couponCode) => {
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/ecommerce/coupons/c/remove`,
+        { couponCode },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data.data.coupon;
+    } catch (error) {
+      console.log("error");
+    }
+  }
+);
 const couponsSice = createSlice({
   name: "coupens",
   initialState,
   extraReducers: (builder) => {
     builder.addCase(getAllCoupens.fulfilled, (state, action) => {
       state.allCoupons = action.payload;
+      state.error = "";
+      state.isLoading = false;
+    });
+    builder.addCase(applyCoupon.fulfilled, (state, action) => {
+      state.error = "";
+      state.isLoading = false;
+    });
+    builder.addCase(removeCoupon.fulfilled, (state, action) => {
       state.error = "";
       state.isLoading = false;
     });

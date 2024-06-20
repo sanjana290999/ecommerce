@@ -44,9 +44,9 @@ export default function ProductsByCategories({ name, showAllButton }) {
   };
 
   return (
-    <div>
+    <div className="bg-gray-200">
       <div className="text-4xl font-medium ml-60 ">{name}</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-10 sm:mx-20 lg:mx-40 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-10 sm:mx-20 lg:mx-40 p-10">
         {!isEmpty(productData) &&
           productData.map((element) => <ProductCard product={element} />)}
       </div>

@@ -2,11 +2,13 @@ import axios from "axios";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getProducts } from "../features/products/ProductsSlice";
-import { postCartItem } from "../features/cart/CartSlice";
+import { postCartItem, removeAllCartItem } from "../features/cart/CartSlice";
 import { toast } from "react-toastify";
 import { Circles } from "react-loader-spinner";
+import Loader from "../loader/Loader";
+
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
     return (
@@ -20,17 +22,16 @@ const TitleShortner = ({ title }) => {
   }
   return <span>{title}</span>;
 };
-// const addCartItem = () => {
-//   dispatch(
-//     postCartItem({
-//       quantity: "",
-//     })
-//   );
-// };
 
 export const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const buyItem = (productId) => {
+    dispatch(removeAllCartItem());
+    dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
+      navigate("/cart");
+    });
+  };
   const addCartItem = (productId) => {
     dispatch(postCartItem({ productId, quantity: 1 }));
 
@@ -55,12 +56,16 @@ export const ProductCard = ({ product }) => {
         <p className="text-gray-600 mb-2">Stock: {product.stock}</p>
         <div className="flex justify-evenly items-center">
           <button
-            className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-6 rounded-lg"
+            className="bg-teal-600 hover:bg-teal-700 text-white py-2 px-7 rounded-lg"
             onClick={() => addCartItem(product._id)}
           >
             Add to Cart
           </button>
-          <button className="bg-blue-900 hover:bg-blue-950 text-white py-2 px-6 rounded-lg">
+
+          <button
+            className="bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-7 rounded-lg"
+            onClick={() => buyItem(product._id)}
+          >
             Buy Now
           </button>
         </div>
@@ -70,24 +75,17 @@ export const ProductCard = ({ product }) => {
 };
 
 export default function Products({ name, showAllButton }) {
-  // const [productData, setProducts] = useState([]);
-
   const dispatch = useDispatch();
-  const productData = useSelector(
-    (state) => state.products.productsData.products
+  const { products: productData, isLoding } = useSelector(
+    (state) => state.products.productsData
   );
+  console.log({ isLoding });
   useEffect(() => {
     dispatch(getProducts());
-    <Circles
-      height="80"
-      width="80"
-      color="#4fa94d"
-      ariaLabel="circles-loading"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-    />;
-  }, []);
+    if (isLoding) {
+      <Loader />;
+    }
+  }, [dispatch]);
 
   return (
     <div>
@@ -95,21 +93,18 @@ export default function Products({ name, showAllButton }) {
 
       {/* New Arrivals Section */}
       <div className="my-8">
-        <h2 className="text-3xl font-semibold text-center mb-4">
-          New Arrivals
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-10 sm:mx-20 lg:mx-40">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-4 sm:mx-10 md:mx-20 lg:mx-40">
           {!isEmpty(productData) &&
             productData
               .slice(0, 8)
               .map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product._id} product={product} />
               ))}
         </div>
       </div>
 
       {/* Limited Edition Collection Section */}
-      <div className="my-8 mx-20 bg-gray-100 p-10">
+      <div className="my-8 mx-4 sm:mx-10 md:mx-20 lg:mx-40 bg-gray-100 p-10 rounded-lg">
         <h2 className="text-3xl font-semibold text-center mb-4">
           Limited Edition Collection
         </h2>
@@ -119,12 +114,12 @@ export default function Products({ name, showAllButton }) {
               <img
                 src="/asset/images/sale_img1.jpg"
                 alt="Limited Edition 1"
-                className="w-1/2 p-2  rounded-2xl"
+                className="w-full sm:w-1/2 p-2 rounded-2xl"
               />
               <img
                 src="/asset/images/sale_img2.jpg"
                 alt="Limited Edition 2"
-                className="w-1/2 p-2"
+                className="w-full sm:w-1/2 p-2"
               />
             </div>
             <div className="text-center mt-4">
@@ -143,18 +138,18 @@ export default function Products({ name, showAllButton }) {
       {/* Hot Sale Section */}
       <div className="my-8">
         <h2 className="text-3xl font-semibold text-center mb-4">Hot Sale</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-10 sm:mx-20 lg:mx-40">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-4 sm:mx-10 md:mx-20 lg:mx-40">
           {!isEmpty(productData) &&
             productData
               .slice(8, 12)
               .map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product._id} product={product} />
               ))}
         </div>
       </div>
 
       {/* Promotional Banners */}
-      <div className="my-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mx-10 sm:mx-20 lg:mx-40">
+      <div className="my-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mx-4 sm:mx-10 md:mx-20 lg:mx-40 p-5">
         <div className="relative bg-gray-100 p-10 rounded-lg">
           <h3 className="text-2xl font-semibold">Save up to 20% off</h3>
           <p>Free shipping, Voucher 20% off, Free return, Order over 100$</p>

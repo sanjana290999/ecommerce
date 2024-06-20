@@ -17,6 +17,11 @@ import WithSidebar from "../components/HOC/HocComponent";
 import CouponsPage from "../components/coupens/Coupens";
 import Notifications from "../components/notifications/Notifications";
 import WishlistPage from "../components/wishlist/WishList";
+import Products from "../components/product/Products";
+
+import Addresses from "../components/address/Addresses";
+import PaymentPage from "../components/payment/Payment";
+import ProfileList from "../components/profileList/ProfileList";
 
 const Wrapper = ({ children }) => {
   const token = Cookies.get("token");
@@ -32,12 +37,14 @@ const AddressWithSidebar = WithSidebar(ManageAddresses);
 const WishlistWithSidebar = WithSidebar(WishlistPage);
 const CouponsWithSidebar = WithSidebar(CouponsPage);
 const NotificationsWithSidebar = WithSidebar(Notifications);
+
 function RoutesComponent() {
   return (
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<Products />} />
 
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route
@@ -61,7 +68,10 @@ function RoutesComponent() {
           element={<ProductsByCategories />}
         />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/addresses  " element={<Addresses />} />
         <Route path="/profile" element={<ProfileWithSidebar />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/profileList" element={<ProfileList />} />
 
         <Route path="/orders" element={<OrdersWithSidebar />} />
         <Route path="/manageAddresses" element={<AddressWithSidebar />} />

@@ -6,6 +6,7 @@ import Sidebar from "../sidebar/Sidebar";
 import FAQs from "../FAQ/Faq";
 import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
+import { BiLoader } from "react-icons/bi";
 const Profile = () => {
   const [updateData, setUpdateData] = useState({
     firstName: "",
@@ -23,7 +24,7 @@ const Profile = () => {
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.auth.userProfile);
-
+  console.log({ userProfile });
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
@@ -81,7 +82,9 @@ const Profile = () => {
                 </div>
               </div>
             ) : (
-              <p>Loading...</p>
+              <p>
+                <BiLoader />
+              </p>
             )}
 
             <button
