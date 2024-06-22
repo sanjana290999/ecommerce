@@ -6,11 +6,14 @@ import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
 import { getCartItem, postCartItem } from "../features/cart/CartSlice";
 import { removeAllCartItem } from "../features/cart/CartSlice";
+import Loader from "../loader/Loader";
 
 export default function ProductDetails() {
   const [mainImage, setMainImage] = useState("");
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.products.productDetails);
+  const isLoding = useSelector((state) => state.products.isLoding);
+  console.log({ isLoding });
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -23,13 +26,17 @@ export default function ProductDetails() {
       setMainImage(productDetails.mainImage.url);
     }
   }, [productDetails]);
-
+  if (isLoding) {
+    return <Loader />;
+  }
   const handleSubImageClick = (url) => {
     setMainImage(url);
   };
 
   const addCartItem = (productId) => {
-    dispatch(postCartItem({ productId, quantity: 1 }));
+    dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
+      navigate("/cart");
+    });
     toast.success("Item added to cart");
     dispatch(getCartItem());
   };
@@ -42,7 +49,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+    <div className="container mx-auto px-4 pb-20 sm:px-6 lg:px-8 mt-10">
       {!isEmpty(productDetails) && (
         <div className="flex flex-col md:flex-row justify-center items-start md:items-stretch">
           {/* Main Image */}

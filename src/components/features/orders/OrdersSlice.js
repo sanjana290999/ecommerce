@@ -34,11 +34,11 @@ export const generateOrder = createAsyncThunk(
     }
   }
 );
-export const allOrders = createAsyncThunk("all /order", async () => {
+export const allOrders = createAsyncThunk("all/order", async (page) => {
   try {
     const token = Cookies.get("token");
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/ecommerce/profile/my-orders?limit=50`,
+      `${process.env.REACT_APP_BASE_URL}/ecommerce/profile/my-orders?limit=5&page=${page}`,
 
       {
         headers: {
@@ -47,7 +47,7 @@ export const allOrders = createAsyncThunk("all /order", async () => {
       }
     );
     console.log(response.data.data.orders);
-    return response.data.data.orders;
+    return response.data.data;
   } catch (error) {
     console.log("error");
   }

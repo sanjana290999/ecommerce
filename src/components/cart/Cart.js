@@ -15,13 +15,18 @@ import Loader from "../loader/Loader";
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartAllItem || []);
-  const Loading = useSelector((state) => state.cart.isLoding);
-
+  // const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
+  // console.log({ countItems });
+  const Loading = useSelector((state) => state.cart.isLoading);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     dispatch(getCartItem());
   }, [dispatch]);
+
+  if (Loading) {
+    return <Loader />;
+  }
 
   const handleIncrement = (productId, quantity) => {
     dispatch(postCartItem({ productId, quantity: quantity + 1 }));
@@ -29,7 +34,7 @@ const Cart = () => {
   };
 
   const handleDecrement = (productId, quantity) => {
-    if (quantity == 1) {
+    if (quantity === 1) {
       toast("Item quantity should be greater than 1");
       return;
     }
@@ -63,16 +68,16 @@ const Cart = () => {
                   <img
                     src={item.product.mainImage.url}
                     alt={item.name}
-                    className="w-32 h-32 object-cover rounded-lg mr-4 mb-4 md:mb-0"
+                    className="w-32 h-32 object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
                   />
                 </Link>
-                <div className="flex-grow ml-4">
+                <div className="flex-grow md:ml-4 text-center md:text-left">
                   <h2 className="text-lg font-semibold">{item.product.name}</h2>
                   <p className="text-gray-600">Price: {item.product.price}</p>
-                  <div className="flex items-center">
+                  <div className="flex justify-center md:justify-start items-center my-2">
                     <button
                       className="bg-gray-200 text-gray-800 py-1 px-3 rounded-full"
-                      disabled={item.quantity == 1}
+                      disabled={item.quantity === 1}
                       onClick={() =>
                         handleDecrement(item.product._id, item.quantity)
                       }
@@ -91,13 +96,13 @@ const Cart = () => {
                   </div>
                   <button
                     type="button"
-                    className="m-2 hover:text-red-700  text-black font-medium "
+                    className="m-2 text-red-600 hover:text-red-800 font-medium"
                     onClick={() => handleRemove(item.product._id)}
                   >
                     REMOVE
                   </button>
                 </div>
-                <div className="text-right">
+                <div className="text-right md:text-left mt-2 md:mt-0">
                   <p className="text-lg font-bold">
                     {item.product.price * item.quantity}
                   </p>
@@ -109,7 +114,9 @@ const Cart = () => {
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between mb-2">
-            <p className="text-gray-600">Price ({cartItems.length} items)</p>
+            <p className="text-gray-600">
+              Price ({cartItems.items?.length || 0} items)
+            </p>
             <p className="font-bold">{cartItems?.cartTotal}</p>
           </div>
           <div className="flex justify-between mb-2">
@@ -131,7 +138,7 @@ const Cart = () => {
                 </p>
                 {isHovered && (
                   <button
-                    className="ml-2 bg-gray-500 hover:bg-gray-600 text-white px-1  py-1 rounded"
+                    className="ml-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded"
                     onClick={() =>
                       handleRemoveCoupon(cartItems.coupon.couponCode)
                     }
@@ -142,8 +149,6 @@ const Cart = () => {
               </div>
             </div>
           )}
-          {/* <p className="text-gray-600">Remove Coupen</p> */}
-
           <hr className="my-2" />
           <div className="flex justify-between text-lg font-bold">
             <p>Total Amount</p>
@@ -151,16 +156,14 @@ const Cart = () => {
           </div>
 
           <Link to={isEmpty(cartItems.coupon) ? "/coupons" : "#"}>
-            <button
-              className="mt-2 w-full py-2 px-4 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75"
-              // onClick={handleApplyCoupon}
-            >
-              {!isEmpty(cartItems.coupon) ? "Applied" : "view all Coupons"}
-              {/* view all Coupons */}
+            <button className="mt-4 w-full py-2 px-4 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75">
+              {!isEmpty(cartItems.coupon)
+                ? "Coupon Applied"
+                : "View All Coupons"}
             </button>
           </Link>
-          <Link to={"/manageAddresses"}>
-            <button className="w-full py-2 px-4 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 mt-4">
+          <Link to="/manageAddresses">
+            <button className="mt-4 w-full py-2 px-4 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
               Buy Now
             </button>
           </Link>

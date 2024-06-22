@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { verifyPayment } from "../features/orders/OrdersSlice";
+import { useRef } from "react";
 import { isEmpty } from "lodash";
 
 const RenderRazorpay = ({ user, order_id, currency, amount }) => {
+  const paymentId = useRef(null);
+  const paymentMethod = useRef(null);
   const dispatch = useDispatch();
 
   function loadScript(src) {
@@ -63,6 +66,11 @@ const RenderRazorpay = ({ user, order_id, currency, amount }) => {
     };
 
     const paymentObject = new window.Razorpay(options);
+    paymentObject.on("payment.failed", (response) => {
+      paymentId.current = response.error.metadata;
+      console.error("Payment failed:", response.error.metadata);
+      alert("Payment failed. Please try again.");
+    });
     paymentObject.open();
   }
 

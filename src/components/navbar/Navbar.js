@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaCartPlus, FaIndianRupeeSign, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getAllCategories,
   getProductsByCategories,
@@ -11,12 +11,24 @@ import { searchProducts } from "../features/products/ProductsSlice";
 import ProfileList from "../profileList/ProfileList";
 import Cookies from "js-cookie";
 import { isEmpty } from "lodash";
+import { getCartItem } from "../features/cart/CartSlice";
 
-const Navbar = ({ cart, setCart }) => {
+const Navbar = () => {
   const dispatch = useDispatch();
+  const [profileListVisible, setProfileListVisible] = useState(false);
   const categories = useSelector((state) => state.header.categories.categories);
+  const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
+  console.log({ countItems });
+  useEffect(() => {
+    dispatch(getCartItem());
+  }, [dispatch]);
+  const totalCountItem = countItems.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+  console.log({ countItems });
   const token = Cookies.get("token");
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
@@ -24,7 +36,9 @@ const Navbar = ({ cart, setCart }) => {
   const handleSearch = (e) => {
     dispatch(searchProducts(e.target.value));
   };
-
+  const handleList = () => {
+    navigate("/profileList");
+  };
   return (
     <div className="relative z-50 bg-white shadow-md">
       <div className="bg-teal-600 text-white p-2 px-10 flex flex-col md:flex-row justify-between items-center">
@@ -67,15 +81,21 @@ const Navbar = ({ cart, setCart }) => {
             placeholder="Search"
             onChange={handleSearch}
           />
-          <Link to={"/profileList"}>
-            <div className="relative group">
-              <FaUser className="w-6 h-6 text-black cursor-pointer" />
-              <ProfileList />
-            </div>
-          </Link>
-          <Link to="/cart">
-            <FaCartPlus className="w-6 h-6 text-black cursor-pointer" />
-          </Link>
+
+          <div className="relative group">
+            <FaUser className="w-6 h-6 text-black cursor-pointer" />
+            <ProfileList />
+          </div>
+          <div className="relative">
+            <Link to="/cart">
+              <FaCartPlus className="w-6 h-6 text-black cursor-pointer" />
+              {totalCountItem > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalCountItem}
+                </span>
+              )}
+            </Link>
+          </div>
           <button
             className="bg-teal-500 text-white py-1 px-4 rounded-lg"
             type="button"

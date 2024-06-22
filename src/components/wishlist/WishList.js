@@ -1,23 +1,15 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeWishlist } from "../features/wishlist/WishlistSlice";
 
 const WishlistPage = () => {
-  const wishlistItems = [
-    // Sample data
-    {
-      id: 1,
-      name: "Sample Product 1",
-      image: "https://via.placeholder.com/150",
-      price: "₹1,299",
-    },
-    {
-      id: 2,
-      name: "Sample Product 2",
-      image: "https://via.placeholder.com/150",
-      price: "₹999",
-    },
-    // Add more items as needed
-  ];
-
+  const wishlistItems = useSelector((state) => state.wishlist.whishlistData);
+  console.log({ wishlistItems });
+  const dispatch = useDispatch();
+  const handleRemove = (whishlistId) => {
+    console.log({ whishlistId });
+    dispatch(removeWishlist(whishlistId));
+  };
   return (
     <div className="p-6 md:p-8 bg-white mb-5 rounded-xl mx-auto mt-8 min-h-screen ml-4">
       <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">
@@ -27,11 +19,11 @@ const WishlistPage = () => {
         {wishlistItems.length > 0 ? (
           wishlistItems.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center"
             >
               <img
-                src={item.image}
+                src={item.mainImage.url}
                 alt={item.name}
                 className="w-40 h-40 object-cover mb-4"
               />
@@ -41,7 +33,10 @@ const WishlistPage = () => {
                 <button className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-600">
                   Add to Cart
                 </button>
-                <button className="bg-gray-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-500">
+                <button
+                  className="bg-gray-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-500"
+                  onClick={() => handleRemove(item._id)}
+                >
                   Remove
                 </button>
               </div>

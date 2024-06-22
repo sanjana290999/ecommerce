@@ -8,6 +8,10 @@ import { postCartItem, removeAllCartItem } from "../features/cart/CartSlice";
 import { toast } from "react-toastify";
 import { Circles } from "react-loader-spinner";
 import Loader from "../loader/Loader";
+import { getCartItem } from "../features/cart/CartSlice";
+import { FaHeart } from "react-icons/fa";
+import { addwishlist } from "../features/wishlist/WishlistSlice";
+import { toHaveStyle } from "@testing-library/jest-dom/matchers";
 
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
@@ -26,19 +30,27 @@ const TitleShortner = ({ title }) => {
 export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.whishlistData);
   const buyItem = (productId) => {
     dispatch(removeAllCartItem());
     dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
       navigate("/cart");
     });
   };
+  console.log({ wishlistItems });
   const addCartItem = (productId) => {
-    dispatch(postCartItem({ productId, quantity: 1 }));
-
-    toast.success("Item added to cart");
-    console.log(productId);
+    dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
+      toast.success("Item added to cart");
+      console.log(productId);
+      dispatch(getCartItem());
+    });
   };
 
+  console.log({ product });
+  const addToWishlist = (product) => {
+    dispatch(addwishlist(product));
+    toast.success("added to Whishlisht");
+  };
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
       <Link to={`/product-details/${product._id}`}>
@@ -48,6 +60,17 @@ export const ProductCard = ({ product }) => {
           alt="Product"
         />
       </Link>
+      <div className="absolute top-2 right-2 ">
+        <button
+          className={` ${
+            wishlistItems._id === product._id ? "text-red-600" : "text-gray-700"
+          } `}
+          // className={`text-gray-700  hover:text-red-600 ${wishlistItems ? "" : ""} `}
+          onClick={() => addToWishlist(product)}
+        >
+          <FaHeart className="w-6 h-6" />
+        </button>
+      </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-800 mb-1">
           <TitleShortner title={product.name} />
@@ -76,15 +99,12 @@ export const ProductCard = ({ product }) => {
 
 export default function Products({ name, showAllButton }) {
   const dispatch = useDispatch();
-  const { products: productData, isLoding } = useSelector(
-    (state) => state.products.productsData
+  const productData = useSelector(
+    (state) => state.products.productsData.products
   );
-  console.log({ isLoding });
+
   useEffect(() => {
     dispatch(getProducts());
-    if (isLoding) {
-      <Loader />;
-    }
   }, [dispatch]);
 
   return (

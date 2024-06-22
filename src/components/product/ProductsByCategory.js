@@ -10,55 +10,65 @@ import {
 import { postCartItem } from "../features/cart/CartSlice";
 import { toast } from "react-toastify";
 import { ProductCard } from "./Products";
+import Loader from "../loader/Loader";
 
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
     return (
-      <>
-        <div className=" opacity-0 hover:opacity-100  absolute z-10 w-auto bg-gray-800 text-sm text-white p-3 rounded-lg -mt-8 -ml-3">
+      <div className="relative">
+        <div className="opacity-0 hover:opacity-100 absolute z-10 w-auto bg-gray-800 text-sm text-white p-3 rounded-lg -mt-8 -ml-3">
           {title}
         </div>
         <span>{title.slice(0, 20)}...</span>
-      </>
+      </div>
     );
   }
   return <span>{title}</span>;
 };
+
 export default function ProductsByCategories({ name, showAllButton }) {
   const dispatch = useDispatch();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const productData = useSelector(
     (state) => state.products.productCategories.products
   );
-  console.log({ productData });
+  const isLoading = useSelector((state) => state.products.isLoding);
+  console.log({ isLoading });
   const { categoryId } = useParams();
-  console.log(categoryId);
 
   useEffect(() => {
     dispatch(getProductsByCategories(categoryId));
-  }, [Navigate]);
+  }, [dispatch, categoryId]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   const addCartItem = (productId) => {
     dispatch(postCartItem({ productId, quantity: 1 }));
     toast.success("Item added to cart");
-    console.log(productId);
   };
 
   return (
-    <div className="bg-gray-200">
-      <div className="text-4xl font-medium ml-60 ">{name}</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-10 sm:mx-20 lg:mx-40 p-10">
-        {!isEmpty(productData) &&
-          productData.map((element) => <ProductCard product={element} />)}
+    <div className="bg-gray-200 p-5">
+      <div className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center sm:text-left mb-5">
+        {name}
       </div>
-      {showAllButton && (
-        <div className="flex items-center justify-center mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {!isEmpty(productData) &&
+          productData.map((element) => (
+            <ProductCard key={element.id} product={element} />
+          ))}
+      </div>
+      {/* {showAllButton && (
+        <div className="flex justify-center mt-10">
           <Link to="/all_products">
             <button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-md font-medium transition duration-300">
               View All Products
             </button>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
