@@ -1,27 +1,24 @@
 import axios from "axios";
 import { isEmpty } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getProducts } from "../features/products/ProductsSlice";
 import { postCartItem, removeAllCartItem } from "../features/cart/CartSlice";
 import { toast } from "react-toastify";
-import { Circles } from "react-loader-spinner";
-import Loader from "../loader/Loader";
 import { getCartItem } from "../features/cart/CartSlice";
 import { FaHeart } from "react-icons/fa";
 import { addwishlist } from "../features/wishlist/WishlistSlice";
-import { toHaveStyle } from "@testing-library/jest-dom/matchers";
 
 const TitleShortner = ({ title }) => {
   if (title.length > 20) {
     return (
-      <>
+      <div className="relative">
         <div className="opacity-0 hover:opacity-100 absolute z-10 w-auto bg-gray-800 text-sm text-white p-3 rounded-lg -mt-8 -ml-3">
           {title}
         </div>
         <span>{title.slice(0, 20)}...</span>
-      </>
+      </div>
     );
   }
   return <span>{title}</span>;
@@ -31,28 +28,33 @@ export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.whishlistData);
+  const wishlistItemIds = isEmpty(wishlistItems)
+    ? []
+    : wishlistItems.map((item) => item._id);
+
+  const isInWishlist = wishlistItemIds.includes(product._id);
+
   const buyItem = (productId) => {
     dispatch(removeAllCartItem());
     dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
       navigate("/cart");
     });
   };
-  console.log({ wishlistItems });
+
   const addCartItem = (productId) => {
     dispatch(postCartItem({ productId, quantity: 1 })).then(() => {
       toast.success("Item added to cart");
-      console.log(productId);
       dispatch(getCartItem());
     });
   };
 
-  console.log({ product });
   const addToWishlist = (product) => {
     dispatch(addwishlist(product));
-    toast.success("added to Whishlisht");
+    toast.success("added to Whishlist");
   };
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105 relative">
       <Link to={`/product-details/${product._id}`}>
         <img
           className="object-cover w-full h-60"
@@ -62,10 +64,7 @@ export const ProductCard = ({ product }) => {
       </Link>
       <div className="absolute top-2 right-2 ">
         <button
-          className={` ${
-            wishlistItems._id === product._id ? "text-red-600" : "text-gray-700"
-          } `}
-          // className={`text-gray-700  hover:text-red-600 ${wishlistItems ? "" : ""} `}
+          className={` ${isInWishlist ? "text-red-600" : "text-gray-700"} `}
           onClick={() => addToWishlist(product)}
         >
           <FaHeart className="w-6 h-6" />
@@ -194,7 +193,7 @@ export default function Products({ name, showAllButton }) {
           </button>
         </div>
         <div className="relative bg-gray-100 p-10 rounded-lg">
-          <h3 className="text-2xl font-semibold">new Arrivals 30% off</h3>
+          <h3 className="text-2xl font-semibold">New Arrivals 30% off</h3>
           <p>Free shipping, Voucher 20% off, Free return, Order over 100$</p>
           <button className="mt-4 bg-black text-white py-2 px-4 rounded">
             Order now

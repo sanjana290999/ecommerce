@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeWishlist } from "../features/wishlist/WishlistSlice";
+import { toast } from "react-toastify";
 
 const WishlistPage = () => {
   const wishlistItems = useSelector((state) => state.wishlist.whishlistData);
@@ -9,6 +10,7 @@ const WishlistPage = () => {
   const handleRemove = (whishlistId) => {
     console.log({ whishlistId });
     dispatch(removeWishlist(whishlistId));
+    toast.success("remove whishlist");
   };
   return (
     <div className="p-6 md:p-8 bg-white mb-5 rounded-xl mx-auto mt-8 min-h-screen ml-4">

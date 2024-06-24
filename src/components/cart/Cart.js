@@ -58,7 +58,7 @@ const Cart = () => {
       <h1 className="text-2xl md:text-4xl font-bold mb-4">Shopping Cart</h1>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-3">
-          {!isEmpty(cartItems) &&
+          {!isEmpty(cartItems?.items) &&
             cartItems.items.map((item) => (
               <div
                 key={item.id}
@@ -115,7 +115,7 @@ const Cart = () => {
           <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">
-              Price ({cartItems.items?.length || 0} items)
+              Price ({cartItems?.items?.length || 0} items)
             </p>
             <p className="font-bold">{cartItems?.cartTotal}</p>
           </div>
@@ -123,24 +123,24 @@ const Cart = () => {
             <p className="text-gray-600">Shipping</p>
             <p className="font-bold">0.00</p>
           </div>
-          {cartItems.coupon && (
+          {cartItems?.coupon && (
             <div
               className="flex justify-between mb-2"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
               <p className="text-gray-600">
-                Discount ({cartItems.coupon.couponCode})
+                Discount ({cartItems?.coupon.couponCode})
               </p>
               <div className="flex items-center">
                 <p className="font-bold">
-                  -{cartItems.coupon.discountValue ?? 0}
+                  -{cartItems?.coupon.discountValue ?? 0}
                 </p>
                 {isHovered && (
                   <button
                     className="ml-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded"
                     onClick={() =>
-                      handleRemoveCoupon(cartItems.coupon.couponCode)
+                      handleRemoveCoupon(cartItems?.coupon.couponCode)
                     }
                   >
                     Remove
@@ -155,9 +155,9 @@ const Cart = () => {
             <p>{cartItems?.discountedTotal}</p>
           </div>
 
-          <Link to={isEmpty(cartItems.coupon) ? "/coupons" : "#"}>
+          <Link to={isEmpty(cartItems?.coupon) ? "/coupons" : "#"}>
             <button className="mt-4 w-full py-2 px-4 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75">
-              {!isEmpty(cartItems.coupon)
+              {!isEmpty(cartItems?.coupon)
                 ? "Coupon Applied"
                 : "View All Coupons"}
             </button>

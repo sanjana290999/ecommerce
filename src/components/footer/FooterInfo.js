@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const Aboutus = [
   "Our Story",
   "Careers",
@@ -9,12 +11,12 @@ export const Aboutus = [
 ];
 
 export const CUSTOMER_CARE = [
-  "Track Order",
-  "Shipping Policy",
-  "Terms and Conditions",
-  "Privacy Policy",
-  "FAQs",
-  "Terms of Service",
+  <Link to={"/tracking-orders"}>Track Order</Link>,
+  <Link to={"/shipping-policy"}>Shipping Policy</Link>,
+  <Link to={"/terms-conditions"}>Terms and Conditions</Link>,
+
+  <Link to={"/faq"}>FAQs</Link>,
+  <Link to={"/privacy-policy"}>Privacy Policy </Link>,
   "Refund Policy",
 ];
 

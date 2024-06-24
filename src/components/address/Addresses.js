@@ -10,6 +10,7 @@ import {
 import { generateOrder } from "../features/orders/OrdersSlice";
 import RenderRazorpay from "../razorpay/RenderRazorpay";
 import { getProfile } from "../features/auth/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const Addresses = ({
   setForm,
@@ -60,6 +61,8 @@ const Addresses = ({
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
   };
+
+  const navigate = useNavigate();
 
   const handleCreateOrder = () => {
     if (!selectedAddressId) {

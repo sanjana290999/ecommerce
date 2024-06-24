@@ -10,13 +10,13 @@ const FAQs = () => {
     },
     {
       question:
-        "When will my Flipkart account be updated with the new email address (or mobile number)?",
+        "When will my osam account be updated with the new email address (or mobile number)?",
       answer:
         "It happens as soon as you confirm the verification code sent to your email (or mobile) and save the changes.",
     },
     {
       question:
-        "What happens to my existing Flipkart account when I update my email address (or mobile number)?",
+        "What happens to my existing osam account when I update my email address (or mobile number)?",
       answer:
         "Updating your email address (or mobile number) doesn't invalidate your account. Your account remains fully functional. You'll continue seeing your Order history, saved information and personal details.",
     },
@@ -24,7 +24,7 @@ const FAQs = () => {
       question:
         "Does my Seller account get affected when I update my email address?",
       answer:
-        "Flipkart has a 'single sign-on' policy. Any changes will reflect in your Seller account also.",
+        "osam has a 'single sign-on' policy. Any changes will reflect in your Seller account also.",
     },
     {
       question: "Deactivate Account",

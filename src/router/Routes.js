@@ -22,6 +22,14 @@ import Products from "../components/product/Products";
 import Addresses from "../components/address/Addresses";
 import PaymentPage from "../components/payment/Payment";
 import ProfileList from "../components/profileList/ProfileList";
+import Help from "../components/customerCare/Help";
+import FAQ from "../components/customerCare/Faqs";
+import ContactUs from "../components/customerCare/ContactUs";
+import PaymentIssue from "../components/customerCare/PaymentIssue";
+import ReturnItem from "../components/customerCare/ReturnItem";
+import ShippingPolicy from "../components/customerCare/ShippingPolicy";
+import TermsConditions from "../components/customerCare/Terms_Conditions";
+import PrivacyPolicy from "../components/customerCare/PrivacyPolicy";
 
 const Wrapper = ({ children }) => {
   const token = Cookies.get("token");
@@ -72,6 +80,14 @@ function RoutesComponent() {
         <Route path="/profile" element={<ProfileWithSidebar />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/profileList" element={<ProfileList />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/contact-support" element={<ContactUs />} />
+        <Route path="/payment-issues" element={<PaymentIssue />} />
+        <Route path="/returns" element={<ReturnItem />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
         <Route path="/orders" element={<OrdersWithSidebar />} />
         <Route path="/manageAddresses" element={<AddressWithSidebar />} />

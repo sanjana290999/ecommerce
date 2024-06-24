@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   generateOrders: [],
@@ -13,6 +14,7 @@ const initialState = {
   error: "",
   isLoding: false,
 };
+
 export const generateOrder = createAsyncThunk(
   "generate/order",
   async (addressId) => {
@@ -55,6 +57,7 @@ export const allOrders = createAsyncThunk("all/order", async (page) => {
 export const verifyPayment = createAsyncThunk(
   "verify/payment",
   async (data) => {
+    const navigate = useNavigate();
     try {
       const token = Cookies.get("token");
       const response = await axios.post(
@@ -66,6 +69,7 @@ export const verifyPayment = createAsyncThunk(
           },
         }
       );
+      navigate("/");
       return response.data.data;
     } catch (error) {
       console.log("error");

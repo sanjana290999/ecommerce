@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaCartPlus, FaIndianRupeeSign, FaUser } from "react-icons/fa";
+import { FaCartPlus, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,25 +10,28 @@ import {
 import { searchProducts } from "../features/products/ProductsSlice";
 import ProfileList from "../profileList/ProfileList";
 import Cookies from "js-cookie";
-import { isEmpty } from "lodash";
 import { getCartItem } from "../features/cart/CartSlice";
+import { isEmpty } from "lodash";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const [profileListVisible, setProfileListVisible] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const categories = useSelector((state) => state.header.categories.categories);
   const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
-  console.log({ countItems });
+
   useEffect(() => {
     dispatch(getCartItem());
   }, [dispatch]);
-  const totalCountItem = countItems.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
-  console.log({ countItems });
+
+  const totalCountItem =
+    countItems.length <= 0
+      ? 0
+      : countItems.reduce((acc, item) => acc + item.quantity, 0);
+
   const token = Cookies.get("token");
   const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
@@ -36,12 +39,10 @@ const Navbar = () => {
   const handleSearch = (e) => {
     dispatch(searchProducts(e.target.value));
   };
-  const handleList = () => {
-    navigate("/profileList");
-  };
+
   return (
     <div className="relative z-50 bg-white shadow-md">
-      <div className="bg-teal-600 text-white p-2 px-10 flex flex-col md:flex-row justify-between items-center">
+      <div className="bg-teal-600 text-white p-2 px-4 md:px-10 flex flex-col md:flex-row justify-between items-center">
         <p className="text-sm md:text-lg font-bold">
           osamcollection123@gmail.com
         </p>
@@ -81,7 +82,6 @@ const Navbar = () => {
             placeholder="Search"
             onChange={handleSearch}
           />
-
           <div className="relative group">
             <FaUser className="w-6 h-6 text-black cursor-pointer" />
             <ProfileList />
@@ -96,29 +96,41 @@ const Navbar = () => {
               )}
             </Link>
           </div>
+          <Link to={"/help"}>
+            <button
+              className="bg-teal-500 text-white py-1 px-4 rounded-lg"
+              type="button"
+            >
+              HELP
+            </button>
+          </Link>
           <button
-            className="bg-teal-500 text-white py-1 px-4 rounded-lg"
+            className="md:hidden bg-teal-500 text-white py-1 px-4 rounded-lg"
             type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            HELP
+            MENU
           </button>
         </div>
       </div>
-      <div className="md:hidden flex justify-center py-2 space-x-4 border-t border-gray-200">
-        {categories &&
-          categories.map((element) => (
-            <Link
-              key={element._id}
-              to={`/products-category/${element._id}`}
-              className="text-black hover:text-teal-600"
-            >
-              <span className="text-sm">
-                {element.name[0].toUpperCase()}
-                {element.name.slice(1)}
-              </span>
-            </Link>
-          ))}
-      </div>
+      {menuOpen && (
+        <div className="md:hidden flex flex-col items-center py-2 space-y-2 border-t border-gray-200">
+          {categories &&
+            categories.map((element) => (
+              <Link
+                key={element._id}
+                to={`/products-category/${element._id}`}
+                className="text-black hover:text-teal-600"
+                onClick={() => setMenuOpen(false)}
+              >
+                <span className="text-sm">
+                  {element.name[0].toUpperCase()}
+                  {element.name.slice(1)}
+                </span>
+              </Link>
+            ))}
+        </div>
+      )}
     </div>
   );
 };
