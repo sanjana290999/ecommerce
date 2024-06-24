@@ -50,7 +50,7 @@ export default function ProductsByCategories({ name, showAllButton }) {
   };
 
   return (
-    <div className="bg-gray-200 p-5">
+    <div className="bg-gray-200 p-5 sm:px-10 md:px-16 lg:px-24 xl:px-48 2xl:px-72">
       <div className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center sm:text-left mb-5">
         {name}
       </div>
@@ -60,15 +60,16 @@ export default function ProductsByCategories({ name, showAllButton }) {
             <ProductCard key={element.id} product={element} />
           ))}
       </div>
-      {/* {showAllButton && (
-        <div className="flex justify-center mt-10">
-          <Link to="/all_products">
-            <button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-md font-medium transition duration-300">
-              View All Products
-            </button>
-          </Link>
+      {showAllButton && (
+        <div className="flex justify-center mt-5">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            onClick={() => navigate("/all-products")}
+          >
+            Show All Products
+          </button>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

@@ -11,7 +11,7 @@ export const Aboutus = [
 ];
 
 export const CUSTOMER_CARE = [
-  <Link to={"/tracking-orders"}>Track Order</Link>,
+  // <Link to={"/tracking-orders"}>Track Order</Link>,
   <Link to={"/shipping-policy"}>Shipping Policy</Link>,
   <Link to={"/terms-conditions"}>Terms and Conditions</Link>,
 
@@ -22,7 +22,11 @@ export const CUSTOMER_CARE = [
 
 export const OFFERS_REWARDS = ["Plant Parent Rewards Club", " Coupons"];
 
-export const GET_IN_TOUCH = ["Contact Us", "Support", "Locations"];
+export const GET_IN_TOUCH = [
+  <Link to={"/contact-support"}>Contact Us</Link>,
+  <Link to={"/help"}>Support</Link>,
+  <Link>Locations</Link>,
+];
 
 export const SIGNUP_FOR_OUR_NEWSLETTER = [
   "For plant care tips, our featured plant of the week, exclusive offers and discounts",
