@@ -80,7 +80,7 @@ function RoutesComponent() {
         <Route path="/profile" element={<ProfileWithSidebar />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/profileList" element={<ProfileList />} />
-        <Route path="/help" element={<Help />} />
+        <Route path="/c" element={<Help />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact-support" element={<ContactUs />} />
         <Route path="/payment-issues" element={<PaymentIssue />} />
