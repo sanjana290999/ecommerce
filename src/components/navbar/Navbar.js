@@ -18,8 +18,17 @@ const Navbar = () => {
   const [profileListVisible, setProfileListVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const categories = useSelector((state) => state.header.categories.categories);
-  const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
-
+  // const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
+  const countItems = useSelector((state) => {
+    if (
+      state.cart &&
+      state.cart.cartAllItem &&
+      Array.isArray(state.cart.cartAllItem.items)
+    ) {
+      return state.cart.cartAllItem.items;
+    }
+    return [];
+  });
   useEffect(() => {
     dispatch(getCartItem());
   }, [dispatch]);
