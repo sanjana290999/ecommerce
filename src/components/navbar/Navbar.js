@@ -20,14 +20,11 @@ const Navbar = () => {
   const categories = useSelector((state) => state.header.categories.categories);
   // const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
   const countItems = useSelector((state) => {
-    if (
-      state.cart &&
+    return state.cart &&
       state.cart.cartAllItem &&
       Array.isArray(state.cart.cartAllItem.items)
-    ) {
-      return state.cart.cartAllItem.items;
-    }
-    return [];
+      ? state.cart.cartAllItem.items
+      : [];
   });
   useEffect(() => {
     dispatch(getCartItem());
