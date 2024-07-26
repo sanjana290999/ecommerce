@@ -24,9 +24,9 @@ export default function HomePage() {
   }, [images.length]);
 
   return (
-    <div className="bg-gray-200 min-h-screen flex flex-col">
+    <div className="bg-gray-200 min-h-screen  flex flex-col">
       <div className="flex-1">
-        <div className="px-4 md:px-8 lg:px-16 xl:px-32">
+        <div className="px-4 md:px-8 lg:px-16">
           <div className="relative flex flex-col md:flex-row items-center justify-center h-[58vh] overflow-hidden p-5">
             <div className="w-full md:w-2/6 text-center md:text-left z-10 p-5 md:p-10">
               <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-black">
@@ -50,7 +50,7 @@ export default function HomePage() {
                   key={index}
                   src={image}
                   alt="Background"
-                  className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                  className={`absolute top-0 left-0 w-full h-full object-cover   transition-opacity duration-1000 ease-in-out ${
                     index === currentImageIndex ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
@@ -63,6 +63,12 @@ export default function HomePage() {
           <div className="mt-5">
             <Products />
           </div>
+          {/* <div>
+            <p className="flex justify-center text-4xl font-medium mt-10">
+              Shop The Look
+            </p>
+            <img className="mt-5" src="./asset/images/plantbag-2.webp" alt="" />
+          </div> */}
         </div>
       </div>
     </div>

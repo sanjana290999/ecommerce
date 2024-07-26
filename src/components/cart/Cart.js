@@ -15,8 +15,6 @@ import Loader from "../loader/Loader";
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartAllItem || []);
-  // const countItems = useSelector((state) => state.cart.cartAllItem.items || []);
-  // console.log({ countItems });
   const Loading = useSelector((state) => state.cart.isLoading);
   const [isHovered, setIsHovered] = useState(false);
 

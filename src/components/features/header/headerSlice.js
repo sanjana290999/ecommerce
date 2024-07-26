@@ -16,7 +16,7 @@ const initialState = {
 export const getAllCategories = createAsyncThunk("get/categories", async () => {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/ecommerce/categories`
+      `${process.env.REACT_APP_BASE_URL}/ecommerce/categories?limit=6`
     );
 
     return response.data.data;

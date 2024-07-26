@@ -7,6 +7,7 @@ import addressReducer from "../components/features/address/AddressSlice";
 import couponsReducer from "../components/features/coupens/CoupensSlice";
 import OrdersReducer from "../components/features/orders/OrdersSlice";
 import wishlishtReducer from "../components/features/wishlist/WishlistSlice";
+import AdminProductsReducer from "../adminPanle/adminFeatures/AdminProducSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     coupons: couponsReducer,
     orders: OrdersReducer,
     wishlist: wishlishtReducer,
+    adminProducts: AdminProductsReducer,
   },
 });

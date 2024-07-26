@@ -1,3 +1,4 @@
+import Header from "../../adminPanle/components/AdminHeader";
 import Sidebar from "../sidebar/Sidebar";
 
 const WithSidebar = (WrapedCompenet) => {
