@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCartPlus, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { FaIndianRupeeSign } from "react-icons/fa6";
 import {
   getAllCategories,
   getProductsByCategories,
@@ -72,22 +73,23 @@ const Navbar = () => {
               ))}
           </div>
         </div>
-
-        <div className="flex justify-center items-center    mt-4 md:mt-0 space-x-4 md:space-x-8">
-          {/* <div className=" text-4xl hover:cursor-pointer  mr-20 font-bold md:hidden">
+        {/* <div className=" text-4xl hover:cursor-pointer  mr-20 font-bold md:hidden">
             <p>&#8801;</p>
           </div> */}
+        {/* <div className="flex justify-center items-center    mt-4 md:mt-0 space-x-4 md:space-x-8"> */}
+        <div className="w-full md:w-[40%] flex justify-center md:justify-end  space-x-4 mt-4 md:space-x-6 md:mt-0">
           <input
-            className="flex-grow md:flex-grow-0 w-full md:w-96 px-4 py-2 border border-gray-300 rounded-2xl text-black"
+            className="ml-0 md:ml-24 px-10 py-2 border-2 border-black  rounded-2xl "
             type="text"
-            placeholder="Search"
+            placeholder="search"
             onChange={handleSearch}
           />
-          <div className="relative group">
+
+          <div className="relative group mt-2">
             <FaUser className="w-6 h-6 text-black cursor-pointer" />
             <ProfileList />
           </div>
-          <div className="relative">
+          <div className="relative mt-2">
             <Link to="/cart">
               <FaCartPlus className="w-6 h-6 text-black cursor-pointer" />
               {totalCountItem > 0 && (
@@ -99,7 +101,7 @@ const Navbar = () => {
           </div>
           <Link to={"/help"}>
             <button
-              className="bg-teal-500 text-white py-1 px-4 rounded-lg"
+              className="bg-teal-500 text-white py-1 px-4 rounded-lg mt-2"
               type="button"
             >
               HELP
@@ -113,6 +115,16 @@ const Navbar = () => {
             MENU
           </button>
         </div>
+        {/* <div className="w-full md:w-[40%] flex justify-center md:justify-end mt-3 md:mt-0">
+          <input
+            className="ml-0 md:ml-24 px-10 rounded-2xl "
+            type="text"
+            placeholder="search"
+          />
+          <FaUser className="w-10 h-5 mt-4 ml-2" />
+          <FaIndianRupeeSign className="w-10 h-5 mt-4" />
+          <FaCartPlus className="w-10 h-5 mt-4" />
+        </div> */}
       </div>
       {menuOpen && (
         <div className="md:hidden flex flex-col items-center py-2 space-y-2 border-t border-gray-200">
