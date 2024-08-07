@@ -105,7 +105,7 @@ export default function Products({ name, showAllButton }) {
 
       {/* New Arrivals Section */}
       <div className="my-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:mx-10 md:mx-10 lg:mx-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:mx-10 md:mx-10 lg:mx-0">
           {!isEmpty(productData) &&
             productData
               .slice(0, 10)
@@ -150,7 +150,7 @@ export default function Products({ name, showAllButton }) {
       {/* Hot Sale Section */}
       <div className="my-8">
         <h2 className="text-3xl font-semibold text-center mb-4">Hot Sale</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-4 sm:mx-10 md:mx-10 lg:mx-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mx-4 sm:mx-10 md:mx-4 lg:mx-0">
           {!isEmpty(productData) &&
             productData
               .slice(10, 20)

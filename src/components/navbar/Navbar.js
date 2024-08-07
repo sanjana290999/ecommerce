@@ -47,7 +47,7 @@ const Navbar = () => {
         <p className="text-sm md:text-lg font-bold">Osam Collection</p>
         <p className="text-sm md:text-lg font-bold">Call: +91-9129-9129-91</p>
       </div>
-      <div className="flex flex-col  md:mx-20 shadow-2xl md:flex-row justify-between items-center  md:px-44 py-4 px-4 ">
+      <div className="flex flex-col  md:mx-20 shadow-2xl md:flex-row justify-between items-center  md:px-36 py-4 px-4 ">
         <div className="flex items-center    space-x-4 md:space-x-10">
           <Link to="/">
             <img

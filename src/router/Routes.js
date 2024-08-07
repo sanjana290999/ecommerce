@@ -77,7 +77,7 @@ function RoutesComponent() {
   return (
     <>
       {!adminRoute && <Navbar />}
-      <div className="sm:px-0 md:px-44">
+      <div className="sm:px-0 md:px-40">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<Products />} />
