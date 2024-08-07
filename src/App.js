@@ -13,7 +13,7 @@ function App() {
     dispatch(loadLocalStorage());
   });
   return (
-    <div className="">
+    <div>
       <ToastContainer />
       <RoutesComponent />
     </div>

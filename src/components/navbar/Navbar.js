@@ -39,15 +39,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative z-50 bg-white shadow-md  ">
-      <div className="bg-teal-600 text-white p-2 px-4 md:px-24 flex flex-col md:flex-row justify-between items-center">
+    <div className="relative z-50 bg-white    ">
+      <div className=" bg-teal-600 text-white p-2 px-4 flex flex-col md:flex-row justify-evenly items-center">
         <p className="text-sm md:text-lg font-bold">
           osamcollection123@gmail.com
         </p>
         <p className="text-sm md:text-lg font-bold">Osam Collection</p>
         <p className="text-sm md:text-lg font-bold">Call: +91-9129-9129-91</p>
       </div>
-      <div className="flex flex-col  md:flex-row justify-between items-center  py-4 px-4  md:px-32">
+      <div className="flex flex-col  md:mx-20 shadow-2xl md:flex-row justify-between items-center  md:px-44 py-4 px-4 ">
         <div className="flex items-center    space-x-4 md:space-x-10">
           <Link to="/">
             <img
@@ -77,7 +77,7 @@ const Navbar = () => {
             <p>&#8801;</p>
           </div> */}
         {/* <div className="flex justify-center items-center    mt-4 md:mt-0 space-x-4 md:space-x-8"> */}
-        <div className="w-full md:w-[40%] flex justify-center md:justify-end  space-x-4 mt-4 md:space-x-6 md:mt-0">
+        <div className="w-full md:w-[40%]  flex justify-center md:justify-end  space-x-4 mt-4 md:space-x-6 md:mt-0">
           <input
             className="ml-0 md:ml-24 px-10 py-2 border-2 border-black  rounded-2xl "
             type="text"

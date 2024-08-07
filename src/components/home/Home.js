@@ -24,7 +24,7 @@ export default function HomePage() {
   }, [images.length]);
 
   return (
-    <div className="bg-gray-200 min-h-screen  flex flex-col">
+    <div className=" min-h-screen my-10  flex flex-col">
       <div className="flex-1">
         <div className="px-4 md:px-8 lg:px-16">
           <div className="relative flex flex-col md:flex-row items-center justify-center h-[58vh] overflow-hidden p-5">

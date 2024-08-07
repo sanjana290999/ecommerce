@@ -77,63 +77,65 @@ function RoutesComponent() {
   return (
     <>
       {!adminRoute && <Navbar />}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<Products />} />
+      <div className="sm:px-0 md:px-44">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<Products />} />
 
-        <Route path="/product-details/:id" element={<ProductDetails />} />
-        <Route
-          path="/signup"
-          element={
-            <Wrapper>
-              <Signup />
-            </Wrapper>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <Wrapper>
-              <Login />
-            </Wrapper>
-          }
-        />
-        <Route
-          path="/products-category/:categoryId"
-          element={<ProductsByCategories />}
-        />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/addresses  " element={<Addresses />} />
-        <Route path="/profile" element={<ProfileWithSidebar />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/profileList" element={<ProfileList />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/contact-support" element={<ContactUs />} />
-        <Route path="/payment-issues" element={<PaymentIssue />} />
-        <Route path="/returns" element={<ReturnItem />} />
-        <Route path="/shipping-policy" element={<ShippingPolicy />} />
-        <Route path="/terms-conditions" element={<TermsConditions />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/product-details/:id" element={<ProductDetails />} />
+          <Route
+            path="/signup"
+            element={
+              <Wrapper>
+                <Signup />
+              </Wrapper>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Wrapper>
+                <Login />
+              </Wrapper>
+            }
+          />
+          <Route
+            path="/products-category/:categoryId"
+            element={<ProductsByCategories />}
+          />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/addresses  " element={<Addresses />} />
+          <Route path="/profile" element={<ProfileWithSidebar />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/profileList" element={<ProfileList />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact-support" element={<ContactUs />} />
+          <Route path="/payment-issues" element={<PaymentIssue />} />
+          <Route path="/returns" element={<ReturnItem />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-        <Route path="/orders" element={<OrdersWithSidebar />} />
-        <Route path="/manageAddresses" element={<AddressWithSidebar />} />
-        <Route path="/coupons" element={<CouponsWithSidebar />} />
-        <Route path="/wishlist" element={<WishlistWithSidebar />} />
-        <Route path="/notifications" element={<NotificationsWithSidebar />} />
+          <Route path="/orders" element={<OrdersWithSidebar />} />
+          <Route path="/manageAddresses" element={<AddressWithSidebar />} />
+          <Route path="/coupons" element={<CouponsWithSidebar />} />
+          <Route path="/wishlist" element={<WishlistWithSidebar />} />
+          <Route path="/notifications" element={<NotificationsWithSidebar />} />
 
-        {/*  ADMIN ROUTES */}
-        <Route path="/admin/test" element={<Test />} />
-        <Route path="/admin/test/two" element={<Test />} />
-        <Route path="/admin/addProducts" element={<ProductForm />} />
+          {/*  ADMIN ROUTES */}
+          <Route path="/admin/test" element={<Test />} />
+          <Route path="/admin/test/two" element={<Test />} />
+          <Route path="/admin/addProducts" element={<ProductForm />} />
 
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/admin/dashboard" element={<AdminWithSidebar />} />
-        <Route path="/admin/products" element={<PrdouctWithSidebar />} />
-        <Route path="/admin/orders" element={<OrderWithSidebar />} />
-        <Route path="/admin/users" element={<UsersWithSidebar />} />
-        <Route path="/admin/analytics" element={<AnalyticsWithSidebar />} />
-      </Routes>
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin/dashboard" element={<AdminWithSidebar />} />
+          <Route path="/admin/products" element={<PrdouctWithSidebar />} />
+          <Route path="/admin/orders" element={<OrderWithSidebar />} />
+          <Route path="/admin/users" element={<UsersWithSidebar />} />
+          <Route path="/admin/analytics" element={<AnalyticsWithSidebar />} />
+        </Routes>
+      </div>
       {!adminRoute && <Footer />}
     </>
   );

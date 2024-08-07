@@ -54,7 +54,7 @@ export const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className=" mx-5 shadow-md overflow-hidden transform transition duration-300 hover:scale-105 relative">
+    <div className="mx-2 shadow-md overflow-hidden transform transition duration-300 hover:scale-105 relative">
       <Link to={`/product-details/${product._id}`}>
         <img
           className="object-cover w-full h-60"
@@ -78,18 +78,11 @@ export const ProductCard = ({ product }) => {
         <p className="text-gray-600 mb-2">Stock: {product.stock}</p>
         <div className=" flex justify-center ">
           <button
-            className="bg-teal-600 hover:bg-teal-700 text-white py-2 md:px-30 px-20   rounded-md"
+            className="bg-teal-600 hover:bg-teal-700 text-white py-2 md:px-30 px-16 rounded-md"
             onClick={() => addCartItem(product._id)}
           >
             Add to Cart
           </button>
-
-          {/* <button
-            className="bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-7 rounded-lg"
-            onClick={() => buyItem(product._id)}
-          >
-            Buy Now
-          </button> */}
         </div>
       </div>
     </div>
@@ -112,10 +105,10 @@ export default function Products({ name, showAllButton }) {
 
       {/* New Arrivals Section */}
       <div className="my-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  sm:mx-10 md:mx-10 lg:mx-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:mx-10 md:mx-10 lg:mx-0">
           {!isEmpty(productData) &&
             productData
-              .slice(0, 8)
+              .slice(0, 10)
               .map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
@@ -157,10 +150,10 @@ export default function Products({ name, showAllButton }) {
       {/* Hot Sale Section */}
       <div className="my-8">
         <h2 className="text-3xl font-semibold text-center mb-4">Hot Sale</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-4 sm:mx-10 md:mx-10 lg:mx-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-4 sm:mx-10 md:mx-10 lg:mx-0">
           {!isEmpty(productData) &&
             productData
-              .slice(8, 12)
+              .slice(10, 20)
               .map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
